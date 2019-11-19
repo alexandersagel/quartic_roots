@@ -11,7 +11,7 @@ static PyObject * quarticRoots(PyObject *self, PyObject *args)
     }
     
     b = b/a;
-    c = c/d;
+    c = c/a;
     d = d/a;
     e = e/a;
 
@@ -58,7 +58,7 @@ static PyObject * quarticRoots(PyObject *self, PyObject *args)
     if (std::abs(Delta_0)==0&&!specialCase) {
         if (std::abs(Delta_1)!=0) {
             //Make sure Q is not 0
-            Q=pow(2.0*Delta_1,1.0/3.0);
+            Q=pow(Delta_1,1.0/3.0);
         } else {
             //Special Case: triple root
             // x_1^4+b/2*x_1^2+c/6=0
@@ -139,8 +139,13 @@ static PyObject * quarticRoots(PyObject *self, PyObject *args)
         roots[i]=tmpRoots[i];
         
     }
-
-    return PyTuple_Pack(4, PyFloat_FromDouble(roots[0]), PyFloat_FromDouble(roots[1]), PyFloat_FromDouble(roots[2]), PyFloat_FromDouble(roots[3]));
+    switch(l) {
+        case 4: return PyTuple_Pack(4, PyFloat_FromDouble(roots[0]), PyFloat_FromDouble(roots[1]), PyFloat_FromDouble(roots[2]), PyFloat_FromDouble(roots[3]));
+        case 3: return PyTuple_Pack(3, PyFloat_FromDouble(roots[0]), PyFloat_FromDouble(roots[1]), PyFloat_FromDouble(roots[2]));
+        case 2: return PyTuple_Pack(2, PyFloat_FromDouble(roots[0]), PyFloat_FromDouble(roots[1]));
+        case 1: return PyTuple_Pack(1, PyFloat_FromDouble(roots[0]));
+        case 0: return PyTuple_Pack(0);
+    }
 }
 
 static PyMethodDef quarticMethods[] = {

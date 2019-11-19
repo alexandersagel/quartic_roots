@@ -56,7 +56,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     if (std::abs(Delta_0)==0&&!specialCase) {
         if (std::abs(Delta_1)!=0) {
             //Make sure Q is not 0
-            Q=pow(2.0*Delta_1,1.0/3.0);
+            Q=pow(Delta_1,1.0/3.0);
         } else {
             //Special Case: triple root
             // x_1^4+b/2*x_1^2+c/6=0
